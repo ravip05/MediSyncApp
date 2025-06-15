@@ -1,0 +1,118 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Frontend CI/CD
+frontend-build:
+  image: node:20.10.0
+  stage: build
+  cache:
+    paths:
+      - frontend/node_modules/  # Cache dependencies for faster subsequent installs
+  script:
+    - echo "Building the frontend..."
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/         # Save build artifacts for deployment
+      - frontend/node_modules/ # Optional: Pass dependencies to subsequent stages
+
+frontend-test:
+  image: node:20.10.0
+  stage: test
+  script:
+    - echo "Running tests..."
+    - cd frontend
+    - npm install              # Install dependencies before testing
+    # - npm run lint
+    - npm test
+
+# variables:
+#   API_TOKEN: $DEPLOYMENT_TOKEN2
+#   APP_PATH: '$CI_PROJECT_DIR/frontend'
+#   OUTPUT_PATH: '$CI_PROJECT_DIR/build'
+
+# frontend-deploy:
+#   stage: deploy
+#   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+#   script:
+#     - echo "App deployed successfully." 
+
+# Admin CI/CD
+admin-build:
+  image: node:20.10.0
+  stage: build
+  cache:
+    paths:
+      - admin/node_modules/
+  script:
+    - echo "Building the admin app..."
+    - cd admin
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - admin/dist/        # Save build artifacts for deployment
+      - admin/node_modules/ # Optional: Pass dependencies to subsequent stages
+
+admin-test:
+  image: node:20.10.0
+  stage: test
+  script:
+    - echo "Running admin tests..."
+    - cd admin
+    - npm install           # Install dependencies before testing
+    - npm test -- --passWithNoTests || true
+
+# variables:
+#   API_TOKEN: $DEPLOYMENT_TOKEN3
+#   APP_PATH: '$CI_PROJECT_DIR/admin'
+#   OUTPUT_PATH: '$CI_PROJECT_DIR/build'
+
+# admin-deploy:
+#   stage: deploy
+#   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+#   script:
+#     - echo "App deployed successfully." 
+
+# Backend CI/CD
+backend-build:
+  image: node:20.10.0
+  stage: build
+  cache:
+    paths:
+    - backend/node_modules/
+  script:
+    - echo "Building the application..."
+    - cd backend
+    - npm install
+    - npm run build || echo "No build step needed"
+  artifacts:
+    paths:
+      - backend/dist/
+      - backend/node_modules/
+
+backend-test:
+  image: node:20.10.0
+  stage: test
+  script:
+    - echo "Running backend tests..."
+    - cd backend
+    - npm install
+    - npm test
+
+deploy:
+  stage: deploy
+  image: node:20.10.0
+  script:
+    - echo "Deploying to Azure Static Web Apps..."
+    - npm install -g @azure/static-web-apps-cli
+    # Deploy Frontend
+    - npx swa deploy frontend/dist --env production --api-language=node --api-version=16
+    # Deploy Admin
+    - npx swa deploy admin/dist --env production --api-language=node --api-version=16
+    # # Deploy Backend
+    - npx swa deploy backend --env production --api-language=node --api-version=16
