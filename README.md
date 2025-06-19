@@ -30,12 +30,7 @@ MediSync is a modern healthcare management platform designed to facilitate seaml
 
 ---
 
-## Visuals
 
-### Admin Portal
-![Screenshot of Admin Portal](frontend/public/Screenshot_2024-11-22_123836.png)
-
----
 
 ## Installation
 
