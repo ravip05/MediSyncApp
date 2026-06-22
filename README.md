@@ -1,35 +1,5 @@
 # MediSync App
 
-## Description
-MediSync is a modern healthcare management platform designed to facilitate seamless operations for patients, administrators and doctors. The application is divided into three main components: **Frontend**, **Backend**, and **Admin Portal**, each serving a specific role in the ecosystem.
-
-### Key Features
-#### Admin Portal:
-- Manage appointments and doctors efficiently.
-- View comprehensive system analytics and reports.
-
-#### Doctor's Dashboard:
-- Manage personal schedules and appointments.
-- Access patient records securely.
-
-#### Scalable and Responsive:
-- Designed to handle growing user bases.
-- Fully responsive across all devices.
-
-### Why MediSync?
-- **Streamlined Workflow:** Consolidates operations for easier management.
-- **Secure Data Handling:** Ensures sensitive information is protected.
-- **User-Friendly Interface:** Simplifies navigation for admins and doctors.
-
----
-
-## Badges
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?logo=mongodb&logoColor=white)
-![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)
-
----
-
 
 
 ## Installation
